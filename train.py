@@ -1,32 +1,43 @@
 from model import get_model
 import keras
 import numpy as np
-params = {'dim': (32,32,32),
-          'batch_size': 64,
-          'n_classes': 6,
-          'n_channels': 1,
-          'out_size': 64,
-          'bow_size': 100,
-          'shuffle': True}
+import pickle
+import json
 
 #bow and labels are dictionaries from key to vector
+
+with open('tfidf/pca.pickle') as f:
+    bow = pickle.load(f)
+
+with open('item_factors.npy') as f:
+    y = json.load(f)
+
+params = {'dim': (128, 216),
+          'batch_size': 64,
+          'n_channels': 1,
+          'out_size': 64,
+          'bow_size': bow.shape[1],
+          'shuffle': True}
+
+partition= {
+    'train': np.arange(7000),
+    'test': np.arange(1400)}
 
 
 class DataGenerator(keras.utils.Sequence):
     # 'Generates data for Keras'
 
     def __init__(self, list_IDs, labels, bow, batch_size=32, dim=(32, 32, 32), n_channels=1,
-                 n_classes=10, shuffle=True):
+                 shuffle=True):
         # 'Initialization'
         self.dim = dim
         self.batch_size = batch_size
         self.labels = labels
-        self.bow= bow
+        self.bow = bow
         self.list_IDs = list_IDs
         self.n_channels = n_channels
-        self.n_classes = n_classes
         self.shuffle = shuffle
-        self.indexes= None
+        self.indexes = None
         self.on_epoch_end()
 
     def __len__(self):
@@ -57,14 +68,14 @@ class DataGenerator(keras.utils.Sequence):
         # Initialization
         X = np.empty((self.batch_size, *self.dim, self.n_channels))
         y = np.empty((self.batch_size, params['out_size']))
-        Xprime= np.empty((self.batch_size,  params['bow_size']))
+        Xprime = np.empty((self.batch_size,  params['bow_size']))
         # Generate data
         for i, ID in enumerate(list_IDs_temp):
             # Store sample
             X[i, ] = np.load('data/' + ID + '.npy')
             # Store class
-            Xprime[i, ]= self.bow[ID]
-            y[i, ] = self.labels[ID]
+            Xprime[i, ]= self.bow[ID, :]
+            y[i, ] = self.labels[ID, :]
 
         return X, Xprime, y
 
