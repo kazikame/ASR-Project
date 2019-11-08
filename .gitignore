@@ -9,3 +9,4 @@ tfidf/tfidf.pickle
 data/
 final_data/
 *.tgz
+index_npy/

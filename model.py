@@ -1,8 +1,8 @@
-from keras.models import Sequential, Model
-from keras.layers import Dropout, MaxPooling2D, Convolution2D, Input, Lambda, concatenate, Flatten, Dense
-from keras import backend as K
-from keras.losses import cosine_proximity
-from keras.optimizers import Adam
+from tensorflow.keras import Sequential, Model
+from tensorflow.keras.layers import Dropout, MaxPooling2D, Convolution2D, Input, Lambda, concatenate, Flatten, Dense
+from tensorflow.keras import backend as K
+from tensorflow.keras.losses import cosine_similarity
+from tensorflow.keras.optimizers import Adam
 
 params = {
         'dropout_factor': 0.5,
@@ -35,11 +35,8 @@ def get_model(input_shape1, input_shape2, output_size):
 
     conv1 = Convolution2D(params["n_filters_1"], params["n_kernel_1"][0],
                           params["n_kernel_1"][1],
-                          border_mode='valid',
-                          activation='relu',
-                          input_shape=(1, params["n_frames"],
-                                       params["n_mel"]),
-                          init="uniform")
+                          padding='same',
+                          activation='relu')
     x = conv1(inputs)
     # print("Input CNN: %s" % str(inputs.output_shape))
     print("Output Conv2D: %s" % str(conv1.output_shape))
@@ -53,9 +50,8 @@ def get_model(input_shape1, input_shape2, output_size):
 
     conv2 = Convolution2D(params["n_filters_2"], params["n_kernel_2"][0],
                           params["n_kernel_2"][1],
-                          border_mode='valid',
-                          activation='relu',
-                          init="uniform")
+                          padding='same',
+                          activation='relu')
     x = conv2(x)
     print("Output Conv2D: %s" % str(conv2.output_shape))
 
@@ -71,8 +67,7 @@ def get_model(input_shape1, input_shape2, output_size):
     conv3 = Convolution2D(params["n_filters_3"],
                           params["n_kernel_3"][0],
                           params["n_kernel_3"][1],
-                          activation='relu',
-                          init="uniform")
+                          activation='relu')
     x = conv3(x)
     print("Output Conv2D: %s" % str(conv3.output_shape))
 
@@ -85,8 +80,7 @@ def get_model(input_shape1, input_shape2, output_size):
     conv4 = Convolution2D(params["n_filters_4"],
                           params["n_kernel_4"][0],
                           params["n_kernel_4"][1],
-                          activation='relu',
-                          init="uniform")
+                          activation='relu')
     x = conv4(x)
     print("Output Conv2D: %s" % str(conv4.output_shape))
 
@@ -101,15 +95,15 @@ def get_model(input_shape1, input_shape2, output_size):
     x = flat(x)
     print("Output Flatten: %s" % str(flat.output_shape))
 
-    dense = Dense(output_dim=params["n_dense"], init="uniform", activation='linear')
+    dense = Dense(params["n_dense"], activation='linear')
     x = dense(x)
     # print("Output CNN: %s" % str(dense1.output_shape))
 
     # metadata
     inputs2 = Input(shape=input_shape2)
-    dense1 = Dense(output_dim=params["n_dense"], init="uniform", activation='relu')
+    dense1 = Dense(params["n_dense"], activation='relu')
     x2 = dense1(inputs2)
-    dense2 = Dense(output_dim=params["n_dense_2"], init="uniform", activation='relu')
+    dense2 = Dense(params["n_dense_2"], activation='relu')
     x2 = dense2(x2)
     print("Output CNN: %s" % str(dense2.output_shape))
 
@@ -117,16 +111,17 @@ def get_model(input_shape1, input_shape2, output_size):
 
     # merge
     xout = concatenate([x, x2], axis=1)
-
-    dense3 = Dense(output_dim=output_size, init="uniform", activation='linear')
+    # print(xout.shape)
+    dense3 = Dense(output_size, activation='linear')
     xout = dense3(xout)
     print("Output CNN: %s" % str(dense3.output_shape))
 
     lambda1 = Lambda(lambda x: K.l2_normalize(x, axis=1))
     xout = lambda1(xout)
 
-    model = Model(input=[inputs, inputs2], output=xout)
-    model.compile(loss=cosine_proximity, optimizer=Adam, metrics=['accuracy'])
+    model = Model(inputs=[inputs, inputs2], outputs=xout)
+    opt = Adam(lr=0.01)
+    model.compile(loss=cosine_similarity, optimizer=opt, metrics=['accuracy'])
 
     return model
 
