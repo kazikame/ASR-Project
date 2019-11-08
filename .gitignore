@@ -5,3 +5,4 @@ __pycache__/
 venv/
 m4a-dataset/
 wav/
+data/
