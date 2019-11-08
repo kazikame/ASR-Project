@@ -6,7 +6,7 @@ import soundfile as sf
 from librosa.feature import melspectrogram
 import sys
 from librosa.display import specshow
-from x import sluggify
+from slugify import slugify
 
 def get_melspectogram(filename):
     wav, sr = sf.read(filename, always_2d=True)
@@ -19,13 +19,27 @@ def get_melspectogram(filename):
 
 
 if __name__ == '__main__':
-
+    song_names = []
+    song_id = []
+    with open('actualsonglist.txt', 'r') as f:
+        for line in f:
+            words = line.split('<SEP>')
+            song_names.append(slugify(words[-1]))
+            song_id.append(words[1])
+    # print(song_names)
+    # print(song_id)
+    # exit(0)
     if len(sys.argv) != 3:
         print("Usage: python3 spectrogram.py input_dir output_dir")
         exit(-1)
     datadir = sys.argv[1]
     output_dir = sys.argv[2]
+    for name in song_names:
+        x = os.path.isfile(os.path.join(datadir, name))
+        if not x:
+            print(name)
 
+    exit(0)
     for file in os.listdir(datadir):
         print(file)
         if os.path.isfile(os.path.join(output_dir, file[:-3] + 'npy')):
