@@ -10,7 +10,8 @@ from librosa.display import specshow
 
 def get_melspectogram(filename):
     wav, sr = sf.read(filename, always_2d=True)
-    mels = [melspectrogram(np.asfortranarray(wav[:, i]), sr=sr, fmax=8000)[np.newaxis, :, :] for i in range(wav.shape[1])]
+    mels = [melspectrogram(np.asfortranarray(wav[:, i]), sr=sr,
+                           hop_length=1024)[np.newaxis, :, :] for i in range(wav.shape[1])]
     array = np.vstack(mels)
     # print(array.shape)
     # print(sr)
@@ -18,10 +19,17 @@ def get_melspectogram(filename):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print("Usage: python3 spectrogram.py <input.wav>")
+    if len(sys.argv) != 3:
+        print("Usage: python3 spectrogram.py input_dir output_dir")
         exit(-1)
-    get_melspectogram(sys.argv[1])
+    datadir = sys.argv[1]
+    output_dir = sys.argv[2]
+    for file in os.listdir(datadir):
+        print(file)
+        if os.path.isfile(os.path.join(output_dir, file[:-3] + 'npy')):
+            continue
+        array, sr = get_melspectogram(os.path.join(datadir, file))
+        np.save(os.path.join(output_dir, file[:-3] + 'npy'), array, allow_pickle=True)
 
 # x = os.listdir(audio_dir)[0]
 # x = "this_time_i_know_preview.wav"

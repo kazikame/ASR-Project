@@ -6,3 +6,4 @@ venv/
 m4a-dataset/
 wav/
 tfidf/tfidf.pickle
+data/
