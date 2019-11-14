@@ -5,28 +5,28 @@ from tensorflow.keras.losses import cosine_similarity
 from tensorflow.keras.optimizers import Adam
 
 params = {
-        'dropout_factor': 0.5,
-        'n_dense': 1024,
-        'n_dense_2': 2048,
-        'n_filters_1': 1024,
-        'n_filters_2': 1024,
-        'n_filters_3': 2048,
-        'n_filters_4': 2048,
-        'n_kernel_1': (70, 4),
-        'n_kernel_2': (6, 4),
-        'n_kernel_3': (1, 4),
-        'n_kernel_4': (1, 1),
-        'n_out': '',
-        'n_pool_1': (1, 4),
-        'n_pool_2': (1, 4),
-        'n_pool_3': (1, 1),
-        'n_pool_4': (1, 1),
-        'n_pool_5': (1, 1),
-        'n_frames': 322,
-        'n_mel': 96,
-        'architecture': 2,
-        'batch_norm': False,
-        'dropout': True
+    'dropout_factor': 0.5,
+    'n_dense': 1024,
+    'n_dense_2': 2048,
+    'n_filters_1': 256,
+    'n_filters_2': 512,
+    'n_filters_3': 1024,
+    'n_filters_4': 1024,
+    'n_kernel_1': (84, 4),
+    'n_kernel_2': (1, 4),
+    'n_kernel_3': (1, 4),
+    'n_kernel_4': (1, 1),
+    'n_out': '',
+    'n_pool_1': (1, 4),
+    'n_pool_2': (1, 4),
+    'n_pool_3': (1, 1),
+    'n_pool_4': (1, 1),
+    'n_pool_5': (1, 1),
+    'n_frames': 322,
+    'n_mel': 96,
+    'architecture': 2,
+    'batch_norm': False,
+    'dropout': True
 }
 
 
@@ -121,7 +121,7 @@ def get_model(input_shape1, input_shape2, output_size):
 
     model = Model(inputs=[inputs, inputs2], outputs=xout)
     opt = Adam(lr=0.01)
-    model.compile(loss=cosine_similarity, optimizer=opt, metrics=['accuracy'])
+    model.compile(loss=cosine_similarity, optimizer=opt, metrics=['mse'])
 
     return model
 
