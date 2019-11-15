@@ -4,21 +4,22 @@ from tensorflow.keras import backend as K
 from tensorflow.keras.losses import cosine_similarity
 from tensorflow.keras.optimizers import Adam
 
+
 params = {
     'dropout_factor': 0.5,
     'n_dense': 1024,
     'n_dense_2': 2048,
-    'n_filters_1': 256,
-    'n_filters_2': 512,
-    'n_filters_3': 1024,
-    'n_filters_4': 1024,
-    'n_kernel_1': (84, 4),
-    'n_kernel_2': (1, 4),
-    'n_kernel_3': (1, 4),
-    'n_kernel_4': (1, 1),
+    'n_filters_1': 32,
+    'n_filters_2': 64,
+    'n_filters_3': 128,
+    'n_filters_4': 128,
+    'n_kernel_1': (84, 5),
+    'n_kernel_2': (1, 5),
+    'n_kernel_3': (1, 5),
+    'n_kernel_4': (1, 5),
     'n_out': '',
-    'n_pool_1': (1, 4),
-    'n_pool_2': (1, 4),
+    'n_pool_1': (1, 5),
+    'n_pool_2': (1, 5),
     'n_pool_3': (1, 1),
     'n_pool_4': (1, 1),
     'n_pool_5': (1, 1),
@@ -32,31 +33,28 @@ params = {
 
 def get_model(input_shape1, input_shape2, output_size):
     inputs = Input(shape=input_shape1)
-
-    conv1 = Convolution2D(params["n_filters_1"], params["n_kernel_1"][0],
-                          params["n_kernel_1"][1],
-                          padding='same',
-                          activation='relu')
+    conv1 = Convolution2D(params["n_filters_1"],
+                          params["n_kernel_1"],
+                          activation='relu',
+                          data_format='channels_last')
     x = conv1(inputs)
     # print("Input CNN: %s" % str(inputs.output_shape))
     print("Output Conv2D: %s" % str(conv1.output_shape))
 
-    pool1 = MaxPooling2D(pool_size=(params["n_pool_1"][0],
-                                    params["n_pool_1"][1]))
+    pool1 = MaxPooling2D(pool_size=params["n_pool_1"])
     x = pool1(x)
     print("Output MaxPool2D: %s" % str(pool1.output_shape))
 
     x = Dropout(params["dropout_factor"])(x)
 
-    conv2 = Convolution2D(params["n_filters_2"], params["n_kernel_2"][0],
-                          params["n_kernel_2"][1],
-                          padding='same',
-                          activation='relu')
+    conv2 = Convolution2D(params["n_filters_2"],
+                          params["n_kernel_2"],
+                          activation='relu',
+                          data_format='channels_last')
     x = conv2(x)
     print("Output Conv2D: %s" % str(conv2.output_shape))
 
-    pool2 = MaxPooling2D(pool_size=(params["n_pool_2"][0],
-                                    params["n_pool_2"][1]))
+    pool2 = MaxPooling2D(pool_size=params["n_pool_2"])
     x = pool2(x)
     print("Output MaxPool2D: %s" % str(pool2.output_shape))
 
@@ -65,27 +63,25 @@ def get_model(input_shape1, input_shape2, output_size):
     # model.add(Permute((3,2,1)))
 
     conv3 = Convolution2D(params["n_filters_3"],
-                          params["n_kernel_3"][0],
-                          params["n_kernel_3"][1],
-                          activation='relu')
+                          params["n_kernel_3"],
+                          activation='relu',
+                          data_format='channels_last')
     x = conv3(x)
     print("Output Conv2D: %s" % str(conv3.output_shape))
 
-    pool3 = MaxPooling2D(pool_size=(params["n_pool_3"][0],
-                                    params["n_pool_3"][1]))
+    pool3 = MaxPooling2D(pool_size=params["n_pool_3"])
     x = pool3(x)
     print("Output MaxPool2D: %s" % str(pool3.output_shape))
     x = Dropout(params["dropout_factor"])(x)
 
     conv4 = Convolution2D(params["n_filters_4"],
-                          params["n_kernel_4"][0],
-                          params["n_kernel_4"][1],
-                          activation='relu')
+                          params["n_kernel_4"],
+                          activation='relu',
+                          data_format='channels_last')
     x = conv4(x)
     print("Output Conv2D: %s" % str(conv4.output_shape))
 
-    pool4 = MaxPooling2D(pool_size=(params["n_pool_4"][0],
-                                    params["n_pool_4"][1]))
+    pool4 = MaxPooling2D(pool_size=params["n_pool_4"])
     x = pool4(x)
     print("Output MaxPool2D: %s" % str(pool4.output_shape))
 

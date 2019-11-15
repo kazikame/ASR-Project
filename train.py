@@ -3,6 +3,8 @@ from tensorflow import keras
 import numpy as np
 import pickle
 import json
+import logging
+from tensorflow import train as tftrain
 
 # bow and labels are dictionaries from key to vector
 
@@ -12,15 +14,15 @@ with open('tfidf/pca.pickle', 'rb') as f:
 y = np.load('item_factors.npy')
 valid = np.loadtxt('valid_indices.txt').astype(int)
 
-np.random.seed(0)
+np.random.seed(42)
 
 np.random.shuffle(valid)
 
-params1 = {'dim': (128, 216, 1),
-          'batch_size': 64,
-          'out_size': 1024,
-          'bow_size': (bow.shape[1], ),
-          'shuffle': True}
+params1 = {'dim': (84, 324, 1),
+           'batch_size': 64,
+           'out_size': 1024,
+           'bow_size': (bow.shape[1],),
+           'shuffle': True}
 
 partition = {
     'train': valid[:7000],
@@ -73,11 +75,11 @@ class DataGenerator(keras.utils.Sequence):
         # Generate data
         for i, ID in enumerate(list_IDs_temp):
             # Store sample
-            temp = np.moveaxis(np.load('index_npy/' + str(ID) + '.npy'), 0, -1)
-            X[i, :, :temp.shape[1], :] = temp
+            temp = np.moveaxis(np.load('cqt_npy/' + str(ID) + '.npy'), 0, -1)
+            X[i, :, :temp.shape[1], :] = np.real(temp)
             # Store class
-            Xprime[i, ] = self.bow[ID, :]
-            y[i, ] = self.labels[ID, :]
+            Xprime[i,] = self.bow[ID, :]
+            y[i,] = self.labels[ID, :]
         # print("X shape      ", X.shape)
         return X, Xprime, y
 
@@ -85,10 +87,27 @@ class DataGenerator(keras.utils.Sequence):
 def train():
     print("start")
     model = get_model(params1['dim'], params1['bow_size'], params1['out_size'])
+    print(model.summary())
     training_generator = DataGenerator(partition['train'], y, bow, batch_size=params1['batch_size'], dim=params1['dim'])
     validation_generator = DataGenerator(partition['test'], y, bow, batch_size=params1['batch_size'], dim=params1['dim'])
+    filename = "saved-model-{epoch:02d}-{val_loss:.2f}.hdf5"
+    cp_callback = keras.callbacks.ModelCheckpoint(filepath=filename, save_weights_only=True, verbose=1, monitor='train_loss',
+                                                  save_best_only=True, save_freq='epoch')
+    latest = tftrain.latest_checkpoint(checkpoint_dir='.')
+    if latest:
+        print(latest)
+        model.load_weights(latest)
+
+    logging.getLogger().setLevel(logging.INFO)
     model.fit_generator(generator=training_generator,
                         validation_data=validation_generator,
                         use_multiprocessing=True,
-                        workers=6)
+                        workers=12,
+                        epochs=100,
+                        callbacks=[cp_callback])
+    return model
+
+
 # First argument is input shape of spectrogram, second argument is PCA ke baad waala SHAPE, output shape final
+if __name__ == '__main__':
+    train()
