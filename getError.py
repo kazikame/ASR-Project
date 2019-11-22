@@ -35,12 +35,24 @@ def evaluate(model):
 	predicted_factors = model.predict([songs, bow_testdata])
 	predictions = user_factors @ predicted_factors.T
 	pred_order = np.argsort(-1*predictions, axis=1)
+	assert(pred_order.shape == predictions.shape)
+	assert(pred_order.shape == predictions.shape)
 	assert(wmf_order.shape == pred_order.shape)
 	return wmf_predictions, wmf_order, predictions, pred_order
 
 def corrcoef_loss(wmf_order, pred_order):
 	rows = wmf_order.shape[0]
-	ans = [pearsonr(wmf_order[i, :], pred_order[i, :])[0] for i in range(rows)]
+	rev_list = np.zeros(wmf_order.shape)
+	rows, cols = wmf_order.shape
+	for i in range(rows):
+		for j in range(cols):
+			rev_list[i, wmf_order[i, j]] = j
+
+	for i in range(rows):
+		for j in range(cols):
+			pred_order[i, j] = rev_list[i, pred_order[i, j]]
+
+	ans = [pearsonr(np.arange(pred_order.size).reshape(pred_order.shape), pred_order[i, :])[0] for i in range(rows)]
 	return np.array(ans)
 
 def inversion_loss(wmf_order, pred_order):
@@ -68,4 +80,4 @@ if __name__ == '__main__':
 	model = load_model(sys.argv[1])
 	_, wmf_order, _, pred_order = evaluate(model)
 	print("Avg. Correlation Coeff:", np.mean(corrcoef_loss(wmf_order, pred_order)))
-	print("Avg. number of inversions:", np.mean(inversion_loss(wmf_order, pred_order)))
+	print("Avg. number of inversions:", inversion_loss(wmf_order, pred_order))
