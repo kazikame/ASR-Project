@@ -11,7 +11,7 @@ from tensorflow import train as tftrain
 with open('tfidf/pca.pickle', 'rb') as f:
     bow = pickle.load(f)
 
-y = np.load('item_factors.npy')
+y = np.load('item_factors_224.npy')
 valid = np.loadtxt('valid_indices.txt').astype(int)
 
 np.random.seed(42)
@@ -20,7 +20,7 @@ np.random.shuffle(valid)
 
 params1 = {'dim': (84, 324, 1),
            'batch_size': 64,
-           'out_size': 200,
+           'out_size': 224,
            'bow_size': (bow.shape[1],),
            'shuffle': True}
 

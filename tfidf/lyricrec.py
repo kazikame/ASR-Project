@@ -7,7 +7,7 @@ from tensorflow import keras
 import json
 import pickle
 
-pca_dim = 512
+pca_dim = 224
 with open('tfidf.pickle', 'rb') as f:
 	tf_idf_vector, tfidf_transformer, file_train_info, file_test_info, counts1, counts2 = pickle.load(f)
 
