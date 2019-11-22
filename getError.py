@@ -1,11 +1,6 @@
-import tensorflow as tf
+
 from tensorflow.keras.models import load_model
-from tensorflow.keras import Sequential, Model
-from tensorflow.keras.layers import Dropout, MaxPooling2D, Convolution2D, Input, Lambda, concatenate, Flatten, Dense
-from tensorflow.keras import backend as K
-from tensorflow.keras.losses import cosine_similarity
-from tensorflow.keras.optimizers import Adam
-from tensorflow import train as tftrain
+from scipy.stats.stats import pearsonr
 
 import numpy as np
 import pickle
@@ -17,8 +12,8 @@ DIM = (84, 324, 1)
 def evaluate(model):
 	with open('tfidf/pca.pickle', 'rb') as f:
 		bow_complete = pickle.load(f)
-	item_factors_complete = np.load('item_factors.npy')
-	user_factors = np.load('user_factors.npy')
+	item_factors_complete = np.load('item_factors_128.npy')
+	user_factors = np.load('user_factors_128.npy')
 	valid_indices = np.loadtxt('valid_indices.txt').astype(int)
 	testdata_indices = valid_indices[TESTDATA:]
 
@@ -35,15 +30,35 @@ def evaluate(model):
 		bow_testdata[i, ] = bow_complete[ID, :]
 		item_factors[i, ] = item_factors_complete[ID, :]
 
-
 	wmf_predictions = user_factors @ item_factors.T
 	wmf_order = np.argsort(-1*wmf_predictions, axis=1)
 	predicted_factors = model.predict([songs, bow_testdata])
 	predictions = user_factors @ predicted_factors.T
 	pred_order = np.argsort(-1*predictions, axis=1)
 	assert(wmf_order.shape == pred_order.shape)
-	print(wmf_predictions[:5])
-	return wmf_order, pred_order
+	return wmf_predictions, wmf_order, predictions, pred_order
+
+def corrcoef_loss(wmf_order, pred_order):
+	rows = wmf_order.shape[0]
+	ans = [pearsonr(wmf_order[i, :], pred_order[i, :])[0] for i in range(rows)]
+	return np.array(ans)
+
+def inversion_loss(wmf_order, pred_order):
+	rev_list = np.zeros(wmf_order.shape)
+	rows, cols = wmf_order.shape
+	for i in range(rows):
+		for j in range(cols):
+			rev_list[i, wmf_order[i, j]] = j
+
+	inv_count = 0
+	for i in range(rows):
+		for x in range(cols):
+			for y in range(x+1, cols):
+				if (rev_list[i, pred_order[i, x]] > rev_list[i, pred_order[i, y]]):
+					inv_count += 1
+
+	return inv_count / wmf_order.shape
+
 
 
 if __name__ == '__main__':
