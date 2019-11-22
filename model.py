@@ -4,6 +4,28 @@ from tensorflow.keras import backend as K
 from tensorflow.keras.losses import cosine_similarity
 from tensorflow.keras.optimizers import Adam
 
+# 'dropout_factor': 0.5,
+#     'n_dense': 1024,
+#     'n_dense_2': 2048,
+#     'n_filters_1': 32,
+#     'n_filters_2': 64,
+#     'n_filters_3': 128,
+#     'n_filters_4': 128,
+#     'n_kernel_1': (84, 5),
+#     'n_kernel_2': (1, 5),
+#     'n_kernel_3': (1, 5),
+#     'n_kernel_4': (1, 5),
+#     'n_out': '',
+#     'n_pool_1': (1, 5),
+#     'n_pool_2': (1, 5),
+#     'n_pool_3': (1, 1),
+#     'n_pool_4': (1, 1),
+#     'n_pool_5': (1, 1),
+#     'n_frames': 322,
+#     'n_mel': 96,
+#     'architecture': 2,
+#     'batch_norm': False,
+#     'dropout': True
 
 params = {
     'dropout_factor': 0.5,
@@ -114,9 +136,8 @@ def get_model(input_shape1, input_shape2, output_size):
 
     lambda1 = Lambda(lambda x: K.l2_normalize(x, axis=1))
     xout = lambda1(xout)
-
     model = Model(inputs=[inputs, inputs2], outputs=xout)
-    opt = Adam(lr=0.01)
+    opt = Adam(lr=0.0001)
     model.compile(loss=cosine_similarity, optimizer=opt, metrics=['mse'])
 
     return model

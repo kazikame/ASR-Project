@@ -6,7 +6,7 @@ import tensorflow as tf
 from tensorflow import keras
 import json
 import pickle
-pca_dim= 100
+pca_dim= 300
 with open('tfidf.pickle', 'rb') as f:
 	tf_idf_vector, tfidf_transformer, file_train_info, file_test_info, counts1, counts2=pickle.load(f)
 
@@ -37,7 +37,7 @@ countsnew= csr_matrix(countsnew)
 #               loss= keras.losses.cosine_proximity,
 #               metrics=['accuracy'])
 
-svd= TruncatedSVD(n_components=pca_dim, n_iter=10, random_state=42)
+svd= TruncatedSVD(n_components=pca_dim, n_iter=50, random_state=42)
 svd.fit(tf_idf_vector)
 pca= svd.transform(countsnew)
 with open("pca.pickle", 'wb') as f:

@@ -11,6 +11,9 @@ from tensorflow import train as tftrain
 with open('tfidf/pca.pickle', 'rb') as f:
     bow = pickle.load(f)
 
+with open('tfidf/songtorest.json', 'r') as f:
+	trackind=json.load(f)
+
 y = np.load('item_factors.npy')
 valid = np.loadtxt('valid_indices.txt').astype(int)
 
@@ -103,7 +106,7 @@ def train():
                         validation_data=validation_generator,
                         use_multiprocessing=True,
                         workers=12,
-                        epochs=100,
+                        epochs=5,
                         callbacks=[cp_callback])
     return model
 
