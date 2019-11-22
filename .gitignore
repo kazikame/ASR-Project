@@ -11,3 +11,4 @@ final_data/
 *.tgz
 index_npy/
 cqt_npy/
+saved-model*

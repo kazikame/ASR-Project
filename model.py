@@ -1,5 +1,5 @@
 from tensorflow.keras import Sequential, Model
-from tensorflow.keras.layers import Dropout, MaxPooling2D, Convolution2D, Input, Lambda, concatenate, Flatten, Dense
+from tensorflow.keras.layers import Dropout, MaxPooling2D, Convolution2D, Input, Lambda, concatenate, Flatten, Dense, BatchNormalization
 from tensorflow.keras import backend as K
 from tensorflow.keras.losses import cosine_similarity
 from tensorflow.keras.optimizers import Adam
@@ -7,8 +7,8 @@ from tensorflow.keras.optimizers import Adam
 
 params = {
     'dropout_factor': 0.5,
-    'n_dense': 1024,
-    'n_dense_2': 2048,
+    'n_dense': 512,
+    'n_dense_2': 128,
     'n_filters_1': 32,
     'n_filters_2': 64,
     'n_filters_3': 128,
@@ -93,7 +93,7 @@ def get_model(input_shape1, input_shape2, output_size):
 
     dense = Dense(params["n_dense"], activation='linear')
     x = dense(x)
-    # print("Output CNN: %s" % str(dense1.output_shape))
+    print("Output dense of music: %s" % str(dense.output_shape))
 
     # metadata
     inputs2 = Input(shape=input_shape2)
@@ -101,22 +101,27 @@ def get_model(input_shape1, input_shape2, output_size):
     x2 = dense1(inputs2)
     dense2 = Dense(params["n_dense_2"], activation='relu')
     x2 = dense2(x2)
-    print("Output CNN: %s" % str(dense2.output_shape))
+    print("Output dense of lyrics: %s" % str(dense2.output_shape))
 
     x2 = Dropout(params["dropout_factor"])(x2)
+
+    print("Performing batch normalization")
+    x = BatchNormalization()(x)
+    x2 = BatchNormalization()(x2)
 
     # merge
     xout = concatenate([x, x2], axis=1)
     # print(xout.shape)
     dense3 = Dense(output_size, activation='linear')
     xout = dense3(xout)
-    print("Output CNN: %s" % str(dense3.output_shape))
+
+    print("Output final dense: %s" % str(dense3.output_shape))
 
     lambda1 = Lambda(lambda x: K.l2_normalize(x, axis=1))
     xout = lambda1(xout)
 
     model = Model(inputs=[inputs, inputs2], outputs=xout)
-    opt = Adam(lr=0.01)
+    opt = Adam(lr=0.1)
     model.compile(loss=cosine_similarity, optimizer=opt, metrics=['mse'])
 
     return model

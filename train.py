@@ -78,9 +78,10 @@ class DataGenerator(keras.utils.Sequence):
             temp = np.moveaxis(np.load('cqt_npy/' + str(ID) + '.npy'), 0, -1)
             X[i, :, :temp.shape[1], :] = np.real(temp)
             # Store class
-            Xprime[i,] = self.bow[ID, :]
-            y[i,] = self.labels[ID, :]
+            Xprime[i, ] = self.bow[ID, :]
+            y[i, ] = self.labels[ID, :]
         # print("X shape      ", X.shape)
+        # print(y.mean(), )
         return X, Xprime, y
 
 
@@ -92,7 +93,7 @@ def train():
     validation_generator = DataGenerator(partition['test'], y, bow, batch_size=params1['batch_size'], dim=params1['dim'])
     filename = "saved-model-{epoch:02d}-{val_loss:.2f}.hdf5"
     cp_callback = keras.callbacks.ModelCheckpoint(filepath=filename, save_weights_only=True, verbose=1, monitor='train_loss',
-                                                  save_best_only=True, save_freq='epoch')
+                                                  save_freq='epoch')
     latest = tftrain.latest_checkpoint(checkpoint_dir='.')
     if latest:
         print(latest)
@@ -102,8 +103,8 @@ def train():
     model.fit_generator(generator=training_generator,
                         validation_data=validation_generator,
                         use_multiprocessing=True,
-                        workers=12,
-                        epochs=100,
+                        workers=6,
+                        epochs=10,
                         callbacks=[cp_callback])
     return model
 

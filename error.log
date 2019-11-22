@@ -1,0 +1,136 @@
+2019-11-15 23:17:16.411319: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2019-11-15 23:17:16.424067: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x7fb373139c00 executing computations on platform Host. Devices:
+2019-11-15 23:17:16.424096: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): Host, Default Version
+WARNING:tensorflow:Can save best model only with train_loss available, skipping.
+WARNING:tensorflow:Can save best model only with train_loss available, skipping.
+WARNING:tensorflow:Can save best model only with train_loss available, skipping.
+WARNING:tensorflow:Can save best model only with train_loss available, skipping.
+WARNING:tensorflow:Can save best model only with train_loss available, skipping.
+WARNING:tensorflow:Can save best model only with train_loss available, skipping.
+Process Keras_worker_ForkPoolWorker-82:
+Traceback (most recent call last):
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/pool.py", line 110, in worker
+    task = get()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/queues.py", line 351, in get
+    with self._rlock:
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/synchronize.py", line 95, in __enter__
+    return self._semlock.__enter__()
+KeyboardInterrupt
+Process Keras_worker_ForkPoolWorker-81:
+Traceback (most recent call last):
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/pool.py", line 110, in worker
+    task = get()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/queues.py", line 351, in get
+    with self._rlock:
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/synchronize.py", line 95, in __enter__
+    return self._semlock.__enter__()
+KeyboardInterrupt
+Process Keras_worker_ForkPoolWorker-80:
+Traceback (most recent call last):
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/pool.py", line 110, in worker
+    task = get()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/queues.py", line 351, in get
+    with self._rlock:
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/synchronize.py", line 95, in __enter__
+    return self._semlock.__enter__()
+KeyboardInterrupt
+Process Keras_worker_ForkPoolWorker-83:
+Traceback (most recent call last):
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/pool.py", line 110, in worker
+    task = get()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/queues.py", line 352, in get
+    res = self._reader.recv_bytes()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/connection.py", line 216, in recv_bytes
+    buf = self._recv_bytes(maxlength)
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/connection.py", line 407, in _recv_bytes
+    buf = self._recv(4)
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/connection.py", line 379, in _recv
+    chunk = read(handle, remaining)
+KeyboardInterrupt
+Process Keras_worker_ForkPoolWorker-84:
+Traceback (most recent call last):
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/pool.py", line 110, in worker
+    task = get()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/queues.py", line 351, in get
+    with self._rlock:
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/synchronize.py", line 95, in __enter__
+    return self._semlock.__enter__()
+KeyboardInterrupt
+Process Keras_worker_ForkPoolWorker-79:
+Traceback (most recent call last):
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/pool.py", line 127, in worker
+    put((job, i, result))
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/queues.py", line 364, in put
+    self._writer.send_bytes(obj)
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/connection.py", line 398, in _send_bytes
+    self._send(buf)
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/connection.py", line 368, in _send
+    n = write(self._handle, buf)
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "train.py", line 113, in <module>
+    train()
+  File "train.py", line 107, in train
+    callbacks=[cp_callback])
+  File "/Users/yashs20/Desktop/ASR-Project/lib/python3.7/site-packages/tensorflow_core/python/keras/engine/training.py", line 1297, in fit_generator
+    steps_name='steps_per_epoch')
+  File "/Users/yashs20/Desktop/ASR-Project/lib/python3.7/site-packages/tensorflow_core/python/keras/engine/training_generator.py", line 265, in model_iteration
+    batch_outs = batch_function(*batch_data)
+  File "/Users/yashs20/Desktop/ASR-Project/lib/python3.7/site-packages/tensorflow_core/python/keras/engine/training.py", line 973, in train_on_batch
+    class_weight=class_weight, reset_metrics=reset_metrics)
+  File "/Users/yashs20/Desktop/ASR-Project/lib/python3.7/site-packages/tensorflow_core/python/keras/engine/training_v2_utils.py", line 264, in train_on_batch
+    output_loss_metrics=model._output_loss_metrics)
+  File "/Users/yashs20/Desktop/ASR-Project/lib/python3.7/site-packages/tensorflow_core/python/keras/engine/training_eager.py", line 311, in train_on_batch
+    output_loss_metrics=output_loss_metrics))
+  File "/Users/yashs20/Desktop/ASR-Project/lib/python3.7/site-packages/tensorflow_core/python/keras/engine/training_eager.py", line 268, in _process_single_batch
+    grads = tape.gradient(scaled_total_loss, trainable_weights)
+  File "/Users/yashs20/Desktop/ASR-Project/lib/python3.7/site-packages/tensorflow_core/python/eager/backprop.py", line 1014, in gradient
+    unconnected_gradients=unconnected_gradients)
+  File "/Users/yashs20/Desktop/ASR-Project/lib/python3.7/site-packages/tensorflow_core/python/eager/imperative_grad.py", line 76, in imperative_grad
+    compat.as_str(unconnected_gradients.value))
+  File "/Users/yashs20/Desktop/ASR-Project/lib/python3.7/site-packages/tensorflow_core/python/eager/backprop.py", line 138, in _gradient_function
+    return grad_fn(mock_op, *out_grads)
+  File "/Users/yashs20/Desktop/ASR-Project/lib/python3.7/site-packages/tensorflow_core/python/ops/nn_grad.py", line 606, in _Conv2DGrad
+    data_format=data_format)
+  File "/Users/yashs20/Desktop/ASR-Project/lib/python3.7/site-packages/tensorflow_core/python/ops/gen_nn_ops.py", line 1187, in conv2d_backprop_filter
+    explicit_paddings, "data_format", data_format, "dilations", dilations)
+KeyboardInterrupt
+Error in atexit._run_exitfuncs:
+Traceback (most recent call last):
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/util.py", line 277, in _run_finalizers
+    finalizer()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/util.py", line 201, in __call__
+    res = self._callback(*self._args, **self._kwargs)
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/pool.py", line 609, in _terminate_pool
+    result_handler.join()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/threading.py", line 1044, in join
+    self._wait_for_tstate_lock()
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/threading.py", line 1060, in _wait_for_tstate_lock
+    elif lock.acquire(block, timeout):
+KeyboardInterrupt
