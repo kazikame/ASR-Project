@@ -29,12 +29,12 @@ from tensorflow.keras.optimizers import Adam
 
 params = {
 	'dropout_factor': 0.5,
-	'n_dense': 224,
-	'n_dense_2': 224,
-	'n_filters_1': 256,
-	'n_filters_2': 512,
-	'n_filters_3': 1024,
-	'n_filters_4': 1024,
+	'n_dense': 128,
+	'n_dense_2': 256,
+	'n_filters_1': 64,
+	'n_filters_2': 128,
+	'n_filters_3': 256,
+	'n_filters_4': 256,
 	'n_kernel_1': (84, 5),
 	'n_kernel_2': (1, 5),
 	'n_kernel_3': (1, 5),
@@ -133,7 +133,7 @@ def get_model(input_shape1, input_shape2, output_size):
 	lambda1 = Lambda(lambda x: K.l2_normalize(x, axis=1))
 	lambda2 = Lambda(lambda x: K.l2_normalize(x, axis=1))
 	x = lambda1(x)
-	x2 = lambda2(x)
+	x2 = lambda2(x2)
 	# merge
 	xout = concatenate([x, x2], axis=1)
 	dense3 = Dense(output_size, activation='linear')
@@ -143,7 +143,7 @@ def get_model(input_shape1, input_shape2, output_size):
 	lambda3 = Lambda(lambda x: K.l2_normalize(x, axis=1))
 	xout = lambda3(xout)
 	model = Model(inputs=[inputs, inputs2], outputs=xout)
-	opt = Adam(lr=0.0001)
+	opt = Adam(lr=0.01)
 	model.compile(loss=cosine_similarity, optimizer=opt, metrics=['mse'])
 
 	return model
