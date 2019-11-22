@@ -15,6 +15,8 @@ def evaluate(model):
 	item_factors_complete = np.load('item_factors_128.npy')
 	user_factors = np.load('user_factors_128.npy')
 	valid_indices = np.loadtxt('valid_indices.txt').astype(int)
+	np.random.seed(42)
+	np.random.shuffle(valid_indices)
 	testdata_indices = valid_indices[TESTDATA:]
 
 	testdataSize = valid_indices.shape[0] - TESTDATA
