@@ -51,8 +51,8 @@ def corrcoef_loss(wmf_order, pred_order):
 	for i in range(rows):
 		for j in range(cols):
 			pred_order[i, j] = rev_list[i, pred_order[i, j]]
-
-	ans = [pearsonr(np.arange(pred_order.size).reshape(pred_order.shape), pred_order[i, :])[0] for i in range(rows)]
+	ref_array = np.arange(pred_order.size).reshape(pred_order.shape)
+	ans = [pearsonr(ref_array[i, :], pred_order[i, :])[0] for i in range(rows)]
 	return np.array(ans)
 
 def inversion_loss(wmf_order, pred_order):
