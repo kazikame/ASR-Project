@@ -11,19 +11,19 @@ from tensorflow import train as tftrain
 with open('tfidf/pca.pickle', 'rb') as f:
 	bow = pickle.load(f)
 
-y = np.load('item_factors_224.npy')
+y = np.load('item_factors_32.npy')
 with open('tfidf/songtorest.json', 'r') as f:
 	trackind = json.load(f)
 
 valid = np.loadtxt('valid_indices.txt').astype(int)
 
-np.random.seed(42)
+np.random.seed(5)
 
 np.random.shuffle(valid)
 
 params1 = {'dim': (84, 324, 1),
 		   'batch_size': 64,
-		   'out_size': 224,
+		   'out_size': 32,
 		   'bow_size': (bow.shape[1],),
 		   'shuffle': True}
 
@@ -103,11 +103,13 @@ def train():
 		model.load_weights(latest)
 
 	logging.getLogger().setLevel(logging.INFO)
-	model.fit_generator(generator=training_generator, validation_data=validation_generator, use_multiprocessing=True,
-						workers=6, epochs=10, callbacks=[cp_callback])
+	tensorboard_callback = keras.callbacks.TensorBoard(log_dir='logs')
+	model.fit_generator(generator=training_generator, validation_data=validation_generator, use_multiprocessing=False,
+						workers=1, epochs=5, callbacks=[cp_callback, tensorboard_callback])
 	return model
 
 
 # First argument is input shape of spectrogram, second argument is PCA ke baad waala SHAPE, output shape final
 if __name__ == '__main__':
-	train()
+	model = train()
+	model.save('model_32_norm.h5')

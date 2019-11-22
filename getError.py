@@ -12,9 +12,11 @@ DIM = (84, 324, 1)
 def evaluate(model):
 	with open('tfidf/pca.pickle', 'rb') as f:
 		bow_complete = pickle.load(f)
-	item_factors_complete = np.load('item_factors_128.npy')
-	user_factors = np.load('user_factors_128.npy')
+	item_factors_complete = np.load('item_factors_32.npy')
+	user_factors = np.load('user_factors_32.npy')
 	valid_indices = np.loadtxt('valid_indices.txt').astype(int)
+	np.random.seed(5)
+	np.random.shuffle(valid_indices)
 	testdata_indices = valid_indices[TESTDATA:]
 
 	testdataSize = valid_indices.shape[0] - TESTDATA
@@ -53,6 +55,7 @@ def corrcoef_loss(wmf_order, pred_order):
 			pred_order[i, j] = rev_list[i, pred_order[i, j]]
 	ref_array = np.arange(pred_order.size).reshape(pred_order.shape)
 	ans = [pearsonr(ref_array[i, :], pred_order[i, :])[0] for i in range(rows)]
+	print(np.array(ans))
 	return np.array(ans)
 
 def inversion_loss(wmf_order, pred_order):
