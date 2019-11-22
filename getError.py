@@ -15,7 +15,7 @@ DIM = (84, 324, 1)
 
 
 def evaluate(model):
-	with open('pca.pickle', 'rb') as f:
+	with open('tfidf/pca.pickle', 'rb') as f:
 		bow_complete = pickle.load(f)
 	item_factors_complete = np.load('item_factors.npy')
 	user_factors = np.load('user_factors.npy')
@@ -24,6 +24,7 @@ def evaluate(model):
 
 	testdataSize = valid_indices.shape[0] - TESTDATA
 	bow_testdata = np.empty((testdataSize, bow_complete.shape[1]))
+	item_factors = np.empty((testdataSize, item_factors_complete.shape[1]))
 	songs = np.zeros((testdataSize, *DIM))
 
 	for i, ID in enumerate(testdata_indices):
@@ -32,14 +33,16 @@ def evaluate(model):
 		songs[i, :, :temp.shape[1], :] = np.real(temp)
 		# Store class
 		bow_testdata[i, ] = bow_complete[ID, :]
-		item_factors = item_factors_complete[ID, :]
+		item_factors[i, ] = item_factors_complete[ID, :]
+
 
 	wmf_predictions = user_factors @ item_factors.T
-	wmf_order = np.argsort(wmf_predictions, axis=1)
-
-	predicted_factors = model.predict(songs, bow_testdata)
+	wmf_order = np.argsort(-1*wmf_predictions, axis=1)
+	predicted_factors = model.predict([songs, bow_testdata])
 	predictions = user_factors @ predicted_factors.T
-	pred_order = np.argsort(predictions, axis=1)
+	pred_order = np.argsort(-1*predictions, axis=1)
+	assert(wmf_order.shape == pred_order.shape)
+	print(wmf_predictions[:5])
 	return wmf_order, pred_order
 
 
