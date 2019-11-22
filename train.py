@@ -20,7 +20,7 @@ np.random.shuffle(valid)
 
 params1 = {'dim': (84, 324, 1),
            'batch_size': 64,
-           'out_size': 1024,
+           'out_size': 200,
            'bow_size': (bow.shape[1],),
            'shuffle': True}
 
@@ -91,9 +91,9 @@ def train():
     print(model.summary())
     training_generator = DataGenerator(partition['train'], y, bow, batch_size=params1['batch_size'], dim=params1['dim'])
     validation_generator = DataGenerator(partition['test'], y, bow, batch_size=params1['batch_size'], dim=params1['dim'])
-    filename = "saved-model-{epoch:02d}-{val_loss:.2f}.hdf5"
-    cp_callback = keras.callbacks.ModelCheckpoint(filepath=filename, save_weights_only=True, verbose=1, monitor='train_loss',
-                                                  save_freq='epoch')
+    filename = "saved-model-{epoch:02d}-{val_loss:.2f}.h5"
+    cp_callback = keras.callbacks.ModelCheckpoint(filepath=filename, save_weights_only=False, verbose=1,
+                                                  save_best_only=True, mode='auto')
     latest = tftrain.latest_checkpoint(checkpoint_dir='.')
     if latest:
         print(latest)

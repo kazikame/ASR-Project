@@ -35,11 +35,11 @@ if __name__ == '__main__':
     # print(song_names)
     # print(song_id)
     # exit(0)
-    if len(sys.argv) != 3:
-        print("Usage: python3 spectrogram.py input_dir output_dir")
-        exit(-1)
-    datadir = sys.argv[1]
-    output_dir = sys.argv[2]
+    # if len(sys.argv) != 3:
+    #     print("Usage: python3 spectrogram.py input_dir output_dir")
+    #     exit(-1)
+    # datadir = sys.argv[1]
+    # output_dir = sys.argv[2]
     # # for name in song_name_id.keys():
     # #     x = os.path.isfile(os.path.join(datadir, name))
     # #     if not x:
@@ -61,13 +61,13 @@ if __name__ == '__main__':
     #     print(array.shape)
     #     np.save(os.path.join(output_dir, new_file_name), array, allow_pickle=True)
 
-    for x in os.listdir(output_dir):
-        file = os.path.join(output_dir, x)
-        y = np.load(file)[0, :, :]
-        specshow(amplitude_to_db(np.abs(y), ref=np.max), sr=22050, x_axis='time', y_axis='cqt_note')
-        plt.colorbar(format='%+2.0f dB')
-        plt.title('Constant-Q power spectrum')
-        plt.tight_layout()
-        plt.show()
+    # for x in os.listdir(output_dir):
+    #     file = os.path.join(output_dir, x)
+    #     y = np.load(file)[0, :, :]
+    #     specshow(amplitude_to_db(np.abs(y), ref=np.max), sr=22050, x_axis='time', y_axis='cqt_note')
+    #     plt.colorbar(format='%+2.0f dB')
+    #     plt.title('Constant-Q power spectrum')
+    #     plt.tight_layout()
+    #     plt.show()
         # if y.shape != (1, 84, 323):
             # print(song_id_name[song_index_to_id[int(x[:-4])]], y.shape)

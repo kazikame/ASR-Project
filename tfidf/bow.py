@@ -39,7 +39,7 @@ with open('mxm_dataset_train.txt', 'r') as f:
             temp = np.zeros(5000)
             for key, val in python_dict.items():
                 temp[int(key) - 1] = int(val)
-            print(idx, count1)
+            # print(idx, count1)
             file_train_info[mxid] = (idx, count1)
             count1 += 1
             # print(temp.shape)
@@ -75,14 +75,17 @@ with open('mxm_dataset_train.txt', 'r') as f:
         for key, val in python_dict.items():
             counts[idx - ind][int(key) - 1] = int(val)
 
-counts = csr_matrix(counts)
-tfidf_transformer = TfidfTransformer(smooth_idf=True, use_idf=True)
-tfidf_transformer.fit(counts)
-# reqcounts= np.zeros([len(intersected_ids), 5000])
-tf_idf_vector = tfidf_transformer.transform(counts)
-print(tf_idf_vector)
-with open('tfidf.pickle', 'wb') as f:
-    # pickle.dump([tf_idf_vector, tfidf_transformer, file_train_info, file_test_info, tfidf_transformer.transform(counts1), tfidf_transformer.transform(counts2)], f)
-    pickle.dump(
-        [tf_idf_vector, tfidf_transformer, file_train_info, file_test_info, tfidf_transformer.transform(counts1), "hello"],
-        f)
+
+print(counts[28])
+
+# counts = csr_matrix(counts)
+# tfidf_transformer = TfidfTransformer(smooth_idf=True, use_idf=True)
+# tfidf_transformer.fit(counts)
+# # reqcounts= np.zeros([len(intersected_ids), 5000])
+# tf_idf_vector = tfidf_transformer.transform(counts)
+# print(tf_idf_vector)
+# with open('tfidf.pickle', 'wb') as f:
+#     # pickle.dump([tf_idf_vector, tfidf_transformer, file_train_info, file_test_info, tfidf_transformer.transform(counts1), tfidf_transformer.transform(counts2)], f)
+#     pickle.dump(
+#         [tf_idf_vector, tfidf_transformer, file_train_info, file_test_info, tfidf_transformer.transform(counts1), "hello"],
+#         f)
