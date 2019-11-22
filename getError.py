@@ -57,7 +57,7 @@ def inversion_loss(wmf_order, pred_order):
 				if (rev_list[i, pred_order[i, x]] > rev_list[i, pred_order[i, y]]):
 					inv_count += 1
 
-	return inv_count / wmf_order.shape
+	return inv_count / wmf_order.size
 
 
 
@@ -66,4 +66,6 @@ if __name__ == '__main__':
 		print("Usage: python3 getError.py model.h5")
 		exit(-1)
 	model = load_model(sys.argv[1])
-	evaluate(model)
+	_, wmf_order, _, pred_order = evaluate(model)
+	print("Avg. Correlation Coeff:", np.mean(corrcoef_loss(wmf_order, pred_order)))
+	print("Avg. number of inversions:", np.mean(inversion_loss(wmf_order, pred_order)))
