@@ -13,3 +13,5 @@ index_npy/
 cqt_npy/
 tfidf/tfidf_300.pickle
 saved-model-*
+mod.h5
+
